@@ -12,28 +12,51 @@
     <p id="password"></p>
 
     <div>
-        <label for="password-length">Password length</label>
-        <input type="number" name="length" id="password-length" min="8" max="20" value="8">
+        <label for="length">Password length</label>
+        <input type="number" name="length" id="length" min="8" max="20" value="8">
     </div>
     <div>
-        <label for="password-uppercase">Uppercase</label>
-        <input type="checkbox" name="filters" id="password-uppercase" value="uppercase">
+        <input type="checkbox" name="filters" id="letters" value="letters">
+        <label for="letters">Letters (A-Z)</label>
 
+        <select name="letters-options" id="letters-options">
+            <option value="downcase">Downcase</option>
+            <option value="uppercase">Uppercase</option>
+            <option value="mixed" selected>Mixed</option>
+        </select>
+
+        <label for="letters-min">Min</label>
+        <input type="number" name="letters-min" id="letters-min">
+        <label for="letters-max">Max</label>
+        <input type="number" name="letters-max" id="letters-max">
     </div>
     <div>
-        <label for="password-downcase">Downcase</label>
-        <input type="checkbox" name="filters" id="password-downcase" value="downcase" checked>
+        <input type="checkbox" name="filters" id="numbers" value="numbers">
+        <label for="numbers">Numbers (0-9)</label>
+
+        <label for="numbers-min">Min</label>
+        <input type="number" name="numbers-min" id="numbers-min">
+        <label for="numbers-max">Max</label>
+        <input type="number" name="numbers-max" id="numbers-max">
     </div>
     <div>
-        <label for="password-numbers">Numbers</label>
-        <input type="checkbox" name="filters" id="password-numbers" value="numbers">
+        <input type="checkbox" name="filters" id="custom-characters" value="customCharacters">
+        <label for="custom-characters">Custom characters</label>
+        <input type="text" name="characters-custom" id="characters-custom" value="!#$%¨&()_+,.-/\|;:<>=?}{[]~'*^">
+
+        <label for="customCharacters-min">Min</label>
+        <input type="number" name="customCharacters-min" id="customCharacters-min">
+        <label for="customCharacters-max">Max</label>
+        <input type="number" name="customCharacters-max" id="customCharacters-max">
     </div>
     <div>
-        <label for="password-special-characters">Special characters</label>
-        <input type="checkbox" name="filters" id="password-special-characters" value="specialCharacters">
+        <input type="checkbox" id="exclude-characters">
+        <label for="exclude-characters">Exclude characters</label>
+        <input type="text" id="excluded-characters">
     </div>
 
     <button id="gerenate-password">Generate Password</button>
+    <button id="copy-password">Copy to clipboard</button>
 </body>
 
 <script src="script.js"></script>
