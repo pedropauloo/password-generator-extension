@@ -24,21 +24,16 @@
             <option value="mixed" selected>Mixed</option>
         </select>
 
-        <label for="letters-min">Min</label>
-        <input type="number" class="min-input" min="0" value="5" name="letters-min" id="letters-min">
-
-        <label for="letters-max">Max</label>
-        <input type="number" class="max-input" value="5" name="letters-max" id="letters-max">
+        <input type="range" class="password-ranges" min="1" max="15" value="5" id="letters-range">
+        <label for="letters-range">5</label>
     </div>
     <div>
         <input type="checkbox" name="filters" id="numbers" value="numbers" checked>
         <label for="numbers">Numbers (0-9)</label>
 
-        <label for="numbers-min">Min</label>
-        <input type="number" class="min-input" min="0" value="3" name="numbers-min" id="numbers-min">
+        <input type="range" class="password-ranges" min="1" max="15" value="5" id="numbers-range">
+        <label for="numbers-range">5</label>
 
-        <label for="numbers-max">Max</label>
-        <input type="number" class="max-input" value="3" name="numbers-max" id="numbers-max">
     </div>
     <div>
         <input type="checkbox" name="filters" id="custom-characters" value="customCharacters" checked>
@@ -46,11 +41,8 @@
         <label for="custom-characters">Custom characters</label>
         <input type="text" name="characters-custom" id="characters-custom" value="!#$%¨&()_+,.-/\|;:<>=?}{[]~'*^">
 
-        <label for="customCharacters-min">Min</label>
-        <input type="number" class="min-input" min="0" value="2" name="customCharacters-min" id="customCharacters-min">
-
-        <label for="customCharacters-max">Max</label>
-        <input type="number" class="max-input" value="2" name="customCharacters-max" id="customCharacters-max">
+        <input type="range" class="password-ranges" min="1" max="15" value="5" id="customCharacters-range">
+        <label for="customCharacters-range">5</label>
     </div>
     <div>
         <input type="checkbox" id="exclude-characters">

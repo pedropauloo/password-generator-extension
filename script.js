@@ -1,41 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#gerenate-password').addEventListener('click', getPassword)
     document.querySelector('#copy-password').addEventListener('click', copyToClipboard);
-    document.querySelectorAll('.min-input').forEach(element => element.addEventListener('change', (e) => checkMinInput(e.target)));
-    document.querySelectorAll('.max-input').forEach(element => element.addEventListener('change', (e) => checkMaxInput(e.target)));
+    document.querySelectorAll('.password-ranges').forEach(element => element.addEventListener('input', (e) => showValues()));
 
     function showValues() {
         const passwordLength = document.querySelector('#password-length');
-        const maxInputs = document.querySelectorAll('.max-input');
-        const minInputs = document.querySelectorAll('.min-input');
-        let maxTotal = 0, minTotal = 0;
-
-        maxInputs.forEach(element => maxTotal += parseInt(element.value));
-        minInputs.forEach(element => minTotal += parseInt(element.value));
-
-        passwordLength.innerHTML = `You password will be between ${minTotal} and ${maxTotal}`;
+        let quantityCharacters = 0;
+        document.querySelectorAll('.password-ranges').forEach(element => {
+            quantityCharacters += parseInt(element.value)
+            element.nextElementSibling.innerHTML = element.value;
+        });
+        passwordLength.innerHTML = `Password length: ${quantityCharacters}`;
     }
     showValues();
-
-
-    function checkMinInput(currentInput) {
-        currentInput.value = Math.abs(currentInput.value);
-
-        const currentMaxInput = currentInput.parentElement.querySelector('.max-input');
-        if (parseInt(currentInput.value) > parseInt(currentMaxInput.value)) {
-            currentInput.value = currentMaxInput.value;
-        }
-
-        showValues();
-    }
-    function checkMaxInput(currentInput) {
-        const currentMinInput = currentInput.parentElement.querySelector('.min-input');
-
-        if (parseInt(currentInput.value) < parseInt(currentMinInput.value))
-            currentInput.value = currentMinInput.value;
-
-        showValues();
-    }
 
     const passwordOptions = {
         characters: {
@@ -119,10 +96,8 @@ document.addEventListener('DOMContentLoaded', function () {
             passwordOptions.excludeCharacters(excludedCharacters, characters) : characters;
 
         for (let filter of filters) {
-            let max = document.querySelector(`#${filter}-max`).value;
-            let min = document.querySelector(`#${filter}-min`).value;
-            let random = Math.floor(Math.random() * (max - min + 1)) + parseInt(min);
-            let randomCharacters = [...Array(random)].map((s, i) => passwordOptions[filter]());
+            let range = document.querySelector(`#${filter}-range`).value;
+            let randomCharacters = [...Array(parseInt(range))].map((s, i) => passwordOptions[filter]());
             password.push(...randomCharacters);
         }
 
