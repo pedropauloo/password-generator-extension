@@ -13,10 +13,10 @@
 
     <div>
         <label for="length">Password length</label>
-        <input type="number" name="length" id="length" min="8" max="20" value="8">
+        <input type="number" name="length" id="length" value="10">
     </div>
     <div>
-        <input type="checkbox" name="filters" id="letters" value="letters">
+        <input type="checkbox" name="filters" id="letters" value="letters" checked>
         <label for="letters">Letters (A-Z)</label>
 
         <select name="letters-options" id="letters-options">
@@ -26,28 +26,32 @@
         </select>
 
         <label for="letters-min">Min</label>
-        <input type="number" name="letters-min" id="letters-min">
+        <input type="number" class="min-input" min="0" value="5" name="letters-min" id="letters-min">
+
         <label for="letters-max">Max</label>
-        <input type="number" name="letters-max" id="letters-max">
+        <input type="number" class="max-input" value="5" name="letters-max" id="letters-max">
     </div>
     <div>
-        <input type="checkbox" name="filters" id="numbers" value="numbers">
+        <input type="checkbox" name="filters" id="numbers" value="numbers" checked>
         <label for="numbers">Numbers (0-9)</label>
 
         <label for="numbers-min">Min</label>
-        <input type="number" name="numbers-min" id="numbers-min">
+        <input type="number" class="min-input" min="0" value="3" name="numbers-min" id="numbers-min">
+
         <label for="numbers-max">Max</label>
-        <input type="number" name="numbers-max" id="numbers-max">
+        <input type="number" class="max-input" value="3" name="numbers-max" id="numbers-max">
     </div>
     <div>
-        <input type="checkbox" name="filters" id="custom-characters" value="customCharacters">
+        <input type="checkbox" name="filters" id="custom-characters" value="customCharacters" checked>
+
         <label for="custom-characters">Custom characters</label>
         <input type="text" name="characters-custom" id="characters-custom" value="!#$%¨&()_+,.-/\|;:<>=?}{[]~'*^">
 
         <label for="customCharacters-min">Min</label>
-        <input type="number" name="customCharacters-min" id="customCharacters-min">
+        <input type="number" class="min-input" min="0" value="2" name="customCharacters-min" id="customCharacters-min">
+
         <label for="customCharacters-max">Max</label>
-        <input type="number" name="customCharacters-max" id="customCharacters-max">
+        <input type="number" class="max-input" value="2" name="customCharacters-max" id="customCharacters-max">
     </div>
     <div>
         <input type="checkbox" id="exclude-characters">

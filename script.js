@@ -1,26 +1,42 @@
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelector('#gerenate-password').addEventListener('click', function () {
-        const filtersChecked = document.querySelectorAll('[name="filters"]:checked');
-        const passwordLength = +document.querySelector('#length').value;
-        const hasExcludedCharacters = Boolean(document.querySelector('#exclude-characters:checked'));
+    document.querySelector('#gerenate-password').addEventListener('click', getPassword)
+    document.querySelector('#copy-password').addEventListener('click', copyToClipboard);
+    document.querySelectorAll('.min-input').forEach(element => element.addEventListener('change', (e) => checkMinInput(e.target)));
+    document.querySelectorAll('.max-input').forEach(element => element.addEventListener('change', (e) => checkMaxInput(e.target)));
 
-        let filters = []
+    function checkMinInput(currentInput) {
+        currentInput.value = Math.abs(currentInput.value);
 
-        for (let filter of filtersChecked)
-            filters.push(filter.value);
+        const currentMaxInput = currentInput.parentElement.querySelector('.max-input');
+        if (parseInt(currentInput.value) > parseInt(currentMaxInput.value)) {
+            currentInput.value = currentMaxInput.value;
+        }
 
-        const generatePassword = configPassword({ filters, passwordLength, hasExcludedCharacters });
+        const inputs = document.querySelectorAll('.min-input');
+        const passwordLength = document.querySelector('#length');
+        let total = 0;
+        inputs.forEach(element => total += parseInt(element.value));
+        console.log(total, passwordLength.value);
+        if (total > passwordLength.value)
+            passwordLength.value = total;
 
-        document.querySelector('#password').innerHTML = generatePassword();
-    })
+    }
+    function checkMaxInput(currentInput) {
+        const currentMinInput = currentInput.parentElement.querySelector('.min-input');
 
-    document.querySelector('#copy-password').addEventListener('click', function () {
-        const password = document.getElementById('password');
-        if (!password.innerHTML) return;
+        if (parseInt(currentInput.value) < parseInt(currentMinInput.value))
+            currentInput.value = currentMinInput.value;
 
-        if (navigator && navigator.clipboard && navigator.clipboard.writeText)
-            return navigator.clipboard.writeText(password.innerHTML);
-    });
+        const minInputs = document.querySelectorAll('.min-input');
+        let totalMinInputs = 0;
+        const passwordLength = document.querySelector('#length');
+
+        minInputs.forEach(element => totalMinInputs += parseInt(element.value));
+        const lengthDiff = parseInt(passwordLength.value) - totalMinInputs;
+
+        if (parseInt(currentInput.value) > parseInt(currentMinInput.value) + lengthDiff)
+            currentInput.value = parseInt(currentMinInput.value) + lengthDiff;
+    }
 
     const passwordOptions = {
         characters: {
@@ -66,15 +82,37 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     }
 
+    function copyToClipboard() {
+        const password = document.getElementById('password');
+        if (!password.innerHTML) return;
 
-    function configPassword(options) {
+        if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+            return navigator.clipboard.writeText(password.innerHTML);
+    }
+
+    function getPassword() {
+        const filtersChecked = document.querySelectorAll('[name="filters"]:checked');
+        const passwordLength = +document.querySelector('#length').value;
+        const hasExcludedCharacters = Boolean(document.querySelector('#exclude-characters:checked'));
+
+        let filters = []
+
+        for (let filter of filtersChecked)
+            filters.push(filter.value);
+
+        const password = generatePassword({ filters, passwordLength, hasExcludedCharacters });
+
+        document.querySelector('#password').innerHTML = password;
+    }
+
+    function generatePassword(options) {
         const { filters, passwordLength, hasExcludedCharacters } = options;
         const characters = {
             downcase: 'abcdefghijklmnopqrstuvwxyz',
             uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
             numbers: '0123456789',
         }
-        let password = '';
+        let password = [];
 
         const excludedCharacters = hasExcludedCharacters ?
             document.querySelector('#excluded-characters').value.split('') : [];
@@ -82,13 +120,16 @@ document.addEventListener('DOMContentLoaded', function () {
         passwordOptions.characters = excludedCharacters ?
             passwordOptions.excludeCharacters(excludedCharacters, characters) : characters;
 
-        for (let i = 0; i < passwordLength; i++) {
-            const randomFilter = Math.floor(Math.random() * (filters.length));
-            const filter = filters[randomFilter];
-            password += filter ?
-                passwordOptions[filter](excludedCharacters) : passwordOptions.letters(excludedCharacters);
+        for (let filter of filters) {
+            let max = document.querySelector(`#${filter}-max`).value;
+            let min = document.querySelector(`#${filter}-min`).value;
+            let random = Math.floor(Math.random() * (max - min + 1)) + parseInt(min);
+            let randomCharacters = [...Array(random)].map((s, i) => passwordOptions[filter]());
+            password.push(...randomCharacters);
         }
 
-        return () => password;
+        console.log(password);
+
+        return password.sort(() => 0.5 - Math.random()).slice(0, passwordLength).join('');
     }
 });
