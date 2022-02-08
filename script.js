@@ -4,6 +4,20 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.min-input').forEach(element => element.addEventListener('change', (e) => checkMinInput(e.target)));
     document.querySelectorAll('.max-input').forEach(element => element.addEventListener('change', (e) => checkMaxInput(e.target)));
 
+    function showValues() {
+        const passwordLength = document.querySelector('#password-length');
+        const maxInputs = document.querySelectorAll('.max-input');
+        const minInputs = document.querySelectorAll('.min-input');
+        let maxTotal = 0, minTotal = 0;
+
+        maxInputs.forEach(element => maxTotal += parseInt(element.value));
+        minInputs.forEach(element => minTotal += parseInt(element.value));
+
+        passwordLength.innerHTML = `You password will be between ${minTotal} and ${maxTotal}`;
+    }
+    showValues();
+
+
     function checkMinInput(currentInput) {
         currentInput.value = Math.abs(currentInput.value);
 
@@ -12,14 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
             currentInput.value = currentMaxInput.value;
         }
 
-        const inputs = document.querySelectorAll('.min-input');
-        const passwordLength = document.querySelector('#length');
-        let total = 0;
-        inputs.forEach(element => total += parseInt(element.value));
-        console.log(total, passwordLength.value);
-        if (total > passwordLength.value)
-            passwordLength.value = total;
-
+        showValues();
     }
     function checkMaxInput(currentInput) {
         const currentMinInput = currentInput.parentElement.querySelector('.min-input');
@@ -27,15 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (parseInt(currentInput.value) < parseInt(currentMinInput.value))
             currentInput.value = currentMinInput.value;
 
-        const minInputs = document.querySelectorAll('.min-input');
-        let totalMinInputs = 0;
-        const passwordLength = document.querySelector('#length');
-
-        minInputs.forEach(element => totalMinInputs += parseInt(element.value));
-        const lengthDiff = parseInt(passwordLength.value) - totalMinInputs;
-
-        if (parseInt(currentInput.value) > parseInt(currentMinInput.value) + lengthDiff)
-            currentInput.value = parseInt(currentMinInput.value) + lengthDiff;
+        showValues();
     }
 
     const passwordOptions = {
@@ -92,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function getPassword() {
         const filtersChecked = document.querySelectorAll('[name="filters"]:checked');
-        const passwordLength = +document.querySelector('#length').value;
         const hasExcludedCharacters = Boolean(document.querySelector('#exclude-characters:checked'));
 
         let filters = []
@@ -100,13 +98,13 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let filter of filtersChecked)
             filters.push(filter.value);
 
-        const password = generatePassword({ filters, passwordLength, hasExcludedCharacters });
+        const password = generatePassword({ filters, hasExcludedCharacters });
 
         document.querySelector('#password').innerHTML = password;
     }
 
     function generatePassword(options) {
-        const { filters, passwordLength, hasExcludedCharacters } = options;
+        const { filters, hasExcludedCharacters } = options;
         const characters = {
             downcase: 'abcdefghijklmnopqrstuvwxyz',
             uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -128,8 +126,6 @@ document.addEventListener('DOMContentLoaded', function () {
             password.push(...randomCharacters);
         }
 
-        console.log(password);
-
-        return password.sort(() => 0.5 - Math.random()).slice(0, passwordLength).join('');
+        return password.sort(() => 0.5 - Math.random()).join('');
     }
 });
