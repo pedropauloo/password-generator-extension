@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let quantityCharacters = 0;
         document.querySelectorAll('.password-ranges').forEach(element => {
             quantityCharacters += parseInt(element.value)
-            element.nextElementSibling.innerHTML = element.value;
+            element.previousElementSibling.innerHTML = `${element.value} characters`;
         });
         passwordLength.innerHTML = `Password length: ${quantityCharacters}`;
     }

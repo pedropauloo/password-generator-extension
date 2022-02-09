@@ -5,53 +5,58 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
     <title>Password Generator</title>
 </head>
 
 <body>
-    <p id="password"></p>
+    <div class="container">
 
-    <div>
-        <p id="password-length"></p>
+        <p id="password" style="padding: 15px 0px;">P A S S W O R D</p>
+
+        <div>
+            <p id="password-length"></p>
+        </div>
+        <div class="container-filter">
+            <input type="checkbox" name="filters" id="letters" value="letters" checked>
+            <label for="letters">Letters (A-Z)</label>
+
+            <select name="letters-options" id="letters-options">
+                <option value="downcase">Downcase</option>
+                <option value="uppercase">Uppercase</option>
+                <option value="mixed" selected>Mixed</option>
+            </select>
+
+            <label class="label-slider" for="letters-range">5 characters</label>
+            <input type="range" class="slider password-ranges" min="1" max="15" value="5" id="letters-range">
+        </div>
+        <div class="container-filter">
+            <input type="checkbox" name="filters" id="numbers" value="numbers" checked>
+            <label for="numbers">Numbers (0-9)</label>
+
+            <label class="label-slider" for="numbers-range">5 characters</label>
+            <input type="range" class="slider password-ranges" min="1" max="15" value="5" id="numbers-range">
+
+        </div>
+        <div class="container-filter">
+            <input type="checkbox" name="filters" id="custom-characters" value="customCharacters" checked>
+
+            <label for="custom-characters">Custom characters</label>
+            <input type="text" name="characters-custom" id="characters-custom" value="!#$%¨&()_+,.-/\|;:<>=?}{[]~'*^">
+
+            <label class="label-slider" for="customCharacters-range">5 characters</label>
+            <input type="range" class="slider password-ranges" min="1" max="15" value="5" id="customCharacters-range">
+        </div>
+        <div class="container-filter">
+            <input type="checkbox" id="exclude-characters">
+            <label for="exclude-characters">Exclude characters</label>
+            <input type="text" id="excluded-characters">
+        </div>
+        <div class="container-button">
+            <button class="btn" style="margin-right: 5px;" id="gerenate-password">Generate Password</button>
+            <button class="btn" style="margin-left:5px;" id="copy-password">Copy to clipboard</button>
+        </div>
     </div>
-    <div>
-        <input type="checkbox" name="filters" id="letters" value="letters" checked>
-        <label for="letters">Letters (A-Z)</label>
-
-        <select name="letters-options" id="letters-options">
-            <option value="downcase">Downcase</option>
-            <option value="uppercase">Uppercase</option>
-            <option value="mixed" selected>Mixed</option>
-        </select>
-
-        <input type="range" class="password-ranges" min="1" max="15" value="5" id="letters-range">
-        <label for="letters-range">5</label>
-    </div>
-    <div>
-        <input type="checkbox" name="filters" id="numbers" value="numbers" checked>
-        <label for="numbers">Numbers (0-9)</label>
-
-        <input type="range" class="password-ranges" min="1" max="15" value="5" id="numbers-range">
-        <label for="numbers-range">5</label>
-
-    </div>
-    <div>
-        <input type="checkbox" name="filters" id="custom-characters" value="customCharacters" checked>
-
-        <label for="custom-characters">Custom characters</label>
-        <input type="text" name="characters-custom" id="characters-custom" value="!#$%¨&()_+,.-/\|;:<>=?}{[]~'*^">
-
-        <input type="range" class="password-ranges" min="1" max="15" value="5" id="customCharacters-range">
-        <label for="customCharacters-range">5</label>
-    </div>
-    <div>
-        <input type="checkbox" id="exclude-characters">
-        <label for="exclude-characters">Exclude characters</label>
-        <input type="text" id="excluded-characters">
-    </div>
-
-    <button id="gerenate-password">Generate Password</button>
-    <button id="copy-password">Copy to clipboard</button>
 </body>
 
 <script src="script.js"></script>
